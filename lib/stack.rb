@@ -1,5 +1,4 @@
-#require 'aws-sdk' #expects to load version 2
-require 'aws-sdk-v1' #version 1 for resources not yet defined in version 2
+require 'aws-sdk-v1' 
 
 #set AWS.config(region: 'region-name')
 #initialize stack with stack = AWS::CloudFormation::Stack.new('stack-name')
