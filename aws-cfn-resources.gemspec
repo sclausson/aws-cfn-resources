@@ -15,6 +15,6 @@ spec = Gem::Specification.new do |s|
   s.add_development_dependency('rdoc', '~> 4.2')
   s.add_development_dependency('rspec', '3.2.0')
   s.add_runtime_dependency('aws-sdk-v1', '~> 1.64')
-  s.homepage    =  'http://rubygems.org/gems/aws-cfn-resources'
+  s.homepage    =  'http://github.com/sclausson/aws-cfn-resources'
   s.license     = 'MIT'
 end
