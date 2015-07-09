@@ -1,0 +1,81 @@
+{
+    "AWSTemplateFormatVersion": "2010-09-09",
+    "Description": "EC2 Tests for AWS-SDK-Helper Gem",
+    "Metadata": {
+
+    },
+    "Parameters": {
+
+      "CidrBlock" : {
+        "Description" : "The CIDR of the VPC used for testing.  It must not conflict with existing VPCs.",
+        "Default" : "192.168.255.0/24",
+        "Type" : "String"
+      }
+    
+    },
+    "Mappings": {
+
+    },
+    "Conditions": {
+
+    },
+    "Resources": {
+      "VPC" : {
+        "Type" : "AWS::EC2::VPC",
+        "Properties" : {
+          "CidrBlock" : { "Ref" : "CidrBlock" }
+        }
+      },
+      "Subnet" : {
+        "Type" : "AWS::EC2::Subnet",
+        "Properties" : {
+          "CidrBlock" : { "Ref" : "CidrBlock" },
+          "VpcId" : { "Ref" : "VPC" }
+        }
+      },
+      "SecurityGroup" : {
+        "Type" : "AWS::EC2::SecurityGroup",
+        "Properties" : {
+          "GroupDescription" : "Test Security Group", 
+          "VpcId" : { "Ref" : "VPC" }
+        }
+      },
+      "EIP" : {
+        "Type" : "AWS::EC2::EIP"
+      },
+      "Instance" : {
+        "Type" : "AWS::EC2::Instance",
+        "Properties" : {
+          "ImageId" : "ami-1ecae776",
+          "InstanceType" : "t2.micro",
+          "SubnetId" : { "Ref" : "Subnet" }
+        }
+      },
+      "NetworkInterface" : {
+        "Type" : "AWS::EC2::NetworkInterface",
+        "Properties" : {
+          "SubnetId" : { "Ref" : "Subnet" }
+        }
+      },
+      "InternetGateway" : {
+        "Type" : "AWS::EC2::InternetGateway"
+      },
+      "RouteTable" : {
+        "Type" : "AWS::EC2::RouteTable",
+        "Properties" : {
+          "VpcId" : { "Ref" : "VPC" }
+        }
+      },
+      "Volume" : {
+        "Type" : "AWS::EC2::Volume",
+        "Properties" : {
+          "Size" : "10",
+          "AvailabilityZone" : "us-east-1a"
+        }
+      }
+    },
+    "Outputs": {
+
+    }
+}
+    
