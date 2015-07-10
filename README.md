@@ -42,13 +42,13 @@ Resources: {
     "myWebInstance" : {
       "Type" : "AWS::EC2::Instance",
       "Properties" : {
-        ...
+        "..."
       }
     },
     "myDbInstance" : {
       "Type" : "AWS::EC2::Instance",
       "Properties" : {
-        ...
+        "..."
       }
   }
 }
@@ -60,11 +60,41 @@ cfn = AWS::CloudFormation.new
 
 stack = cfn.stacks['myStack']
 instance = stack.instance('myWebInstance')
- # <AWS::EC2::Instance id:i-abc12345>
+#=> <AWS::EC2::Instance id:i-abc12345>
 ```
 
 Return a hash containting all AWS::EC2::Instance resource types created by the cfn stack
 ```ruby
 stack = cfn.stacks['myStack']
 instances = stack.instances
-# {:myWebInstance=><AWS::EC2::Instance id:i-abc12345>,:myDbInstance=><AWS::EC2::Instance id:i-def67890>}
+#=> {:myWebInstance=><AWS::EC2::Instance id:i-abc12345>,:myDbInstance=><AWS::EC2::Instance id:i-def67890>}
+
+***Example 2***
+
+Given a Cloudformation template snippet for a stack named "VpcCreator":
+```json
+Resources: {
+    "myVpc" : {
+      "Type" : "AWS::EC2::VPC",
+      "Properties" : {
+        "..."
+      }
+    },
+    "WebSubnet" : {
+      "Type" : "AWS::EC2::Subnet",
+      "Properties" : {
+        "..."
+      }
+  }
+}
+```
+Return VPC and Subnet names to be used as parameter values in a dependent template
+```ruby
+vpc_stack = cfn.stacks['VpcCreator']
+vpc_id = vpc_stack.vpc('myVpc').id
+web_subnet_id = vpc_stack.subnet('WebSubnet').id
+
+resp = cfn.client.create_stack({stack_name: 'newStack', template_body: some_template, parameters: [{ParameterKey: "VpcId", ParameterValue: vpc_id}, {ParameterKey: "WebSubnetId", ParameterValue: web_subnet_id}] })
+```
+
+
