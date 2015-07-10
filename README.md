@@ -40,15 +40,15 @@ Given a CloudFormation template snippet a stack named "myStack":
 ```json
 Resources: {
     "myWebInstance" : {
-        "Type" : "AWS::EC2::Instance",
-        "Properties" : {
+      "Type" : "AWS::EC2::Instance",
+      "Properties" : {
         ...
-        }
+      }
     },
     "myDbInstance" : {
       "Type" : "AWS::EC2::Instance",
       "Properties" : {
-      ...
+        ...
       }
   }
 }
