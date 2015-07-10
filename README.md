@@ -68,6 +68,7 @@ Return a hash containting all AWS::EC2::Instance resource types created by the c
 stack = cfn.stacks['myStack']
 instances = stack.instances
 #=> {:myWebInstance=><AWS::EC2::Instance id:i-abc12345>,:myDbInstance=><AWS::EC2::Instance id:i-def67890>}
+```
 
 ***Example 2***
 
