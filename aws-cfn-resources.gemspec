@@ -2,10 +2,10 @@ require 'rake'
 
 spec = Gem::Specification.new do |s|
   s.name        = 'aws-cfn-resources'
-  s.version     = '0.1.0'
+  s.version     = '0.1.1'
   s.date        = '2015-07-09'
-  s.summary     = "Simplifies retrieving AWS resource objects created by CloudFormation"
-  s.description = "Use this gem to retrieve a single resource object, a group of resource objects or a listing of physical resource ids from a deployed CloudFormation stack"
+  s.summary     = "Simplifies retrieving AWS resource objects created by CloudFormation."
+  s.description = "Mixes methods into AWS::CloudFormation::Stack to make it easy to retrieve resource objects created during stack creation."
   s.platform    = Gem::Platform::RUBY
   s.authors     = ["Shayne Clausson"]
   s.email       = 'sclausson@hotmail.com'

@@ -201,12 +201,10 @@ module AWS
         get_resources "AWS::AutoScaling::ScalingPolicy"
       end
 
-      #v1
       def security_group(logical_id)
         AWS::EC2.new.security_groups.filter('group-id',security_group_ids[logical_id.to_sym]).first
       end
-
-      #v1
+      
       def security_groups
         security_group_ids.inject({}) { |hash, (k,v)| hash[k] = security_group(k); hash }
       end

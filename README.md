@@ -36,7 +36,7 @@ stack = cfn.stacks['myStack']
 
 ***Example 1***
 
-Given a CloudFormation template snippet a stack named "myStack":
+Given a CloudFormation template snippet for a stack named "myStack":
 ```json
 Resources: {
     "myWebInstance" : {
