@@ -75,17 +75,17 @@ instances = stack.instances
 Given a Cloudformation template snippet for a stack named "VpcCreator":
 ```json
 Resources: {
-    "myVpc" : {
-      "Type" : "AWS::EC2::VPC",
-      "Properties" : {
-        "..."
-      }
-    },
-    "WebSubnet" : {
-      "Type" : "AWS::EC2::Subnet",
-      "Properties" : {
-        "..."
-      }
+  "myVpc" : {
+    "Type" : "AWS::EC2::VPC",
+    "Properties" : {
+      "..."
+    }
+  },
+  "WebSubnet" : {
+    "Type" : "AWS::EC2::Subnet",
+    "Properties" : {
+      "..."
+    }
   }
 }
 ```
@@ -95,7 +95,18 @@ vpc_stack = cfn.stacks['VpcCreator']
 vpc_id = vpc_stack.vpc('myVpc').id
 web_subnet_id = vpc_stack.subnet('WebSubnet').id
 
-resp = cfn.client.create_stack({stack_name: 'newStack', template_body: some_template, parameters: [{ParameterKey: "VpcId", ParameterValue: vpc_id}, {ParameterKey: "WebSubnetId", ParameterValue: web_subnet_id}] })
+resp = cfn.client.create_stack({stack_name: 'webStack', template_body: web_template, parameters: [{ParameterKey: "VpcId", ParameterValue: vpc_id}, {ParameterKey: "WebSubnetId", ParameterValue: web_subnet_id}] })
+```
+Cloudformation snippet for web.template used to create "webStack":
+```json
+Parameters : {
+  "VpcId" : {
+    "..."
+  },
+  "WebSubnetId" : {
+    "..."
+  }
+}
 ```
 
 
