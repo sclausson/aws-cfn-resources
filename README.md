@@ -7,6 +7,8 @@ CloudFormation is ideal for creating resources on AWS. Each resource in a CloudF
 
 By mixing methods into AWS::CloudFormation::Stack, the aws-cfn-resources gem is meant to make it easy to retrieve these physical resources in the form of AWS::* objects.
 
+It also makes sense to go the other direction, and to retrieve the AWS::CloudFormation::Stack responsible for creating a particular resource.  So this gem provides a stack method for most AWS taggable resources.
+
 ## Installation
 * `gem install aws-cfn-resources`
 * `require aws-cfn-resources`
@@ -107,6 +109,22 @@ Parameters : {
     "..."
   }
 }
+```
+
+***Example 3***
+
+Return AWS::CloudFormation::Stack that created a specific AWS resource
+
+```ruby
+ec2 = AWS::EC2.new
+web_instance = ec2.instances['i-abc12345']
+vpc = ec2.vpcs['vpc-def67890']
+
+web_instance.stack
+#=> <AWS::CloudFormation::Stack stack_name:webStack> 
+
+vpc.stack
+#=> <AWS::CloudFormation::Stack stack_name:VpcCreator>
 ```
 
 
