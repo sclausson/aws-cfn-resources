@@ -10,7 +10,7 @@ By mixing methods into AWS::CloudFormation::Stack, the aws-cfn-resources gem is 
 It also makes sense to go the other direction, and to retrieve the AWS::CloudFormation::Stack responsible for creating a particular resource.  So this gem provides a stack method for most AWS taggable resources.
 
 ## Installation
-* ```gem install aws-cfn-resources`
+* `gem install aws-cfn-resources`
 * `require aws-cfn-resources`
 
 ## Basic Configuration
