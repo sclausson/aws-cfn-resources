@@ -26,14 +26,12 @@ describe "AutoScaling, CloudWatch, ELB Resources for AS-Test Stack" do
 
   it "AWS::ELB::LoadBalancer#stack => Returns the AWS::CloudFormation::Stack resource that created the ELB" do
     resource = stack.elb('ElasticLoadBalancer')
-    expect(resource.stack.name).to eq "AS-Test"
-    expect(resource.stack.status).to eq "CREATE_COMPLETE"
+    expect(resource.stack).to exist
   end
 
   it "AWS::AutoScaliing::Group#stack => Returns the AWS::CloudFormation::Stack resource that created the AutoScalingGroup" do
     resource = stack.autoscaling_group('AutoScalingGroup')
-    expect(resource.stack.name).to eq "AS-Test"
-    expect(resource.stack.status).to eq "CREATE_COMPLETE"
+    expect(resource.stack).to exist
   end
 
 end

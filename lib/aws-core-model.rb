@@ -6,7 +6,11 @@ module AWS
 
       def stack
         stack_name = tag_value "aws:cloudformation:stack-name"
-        AWS::CloudFormation::Stack.new(stack_name)
+        if stack_name
+          AWS::CloudFormation::Stack.new(stack_name)
+        else
+          nil
+        end
       end
 
       private
