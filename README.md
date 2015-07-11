@@ -142,13 +142,13 @@ rspec ./spec/resources_spec.rb #queries resources and returns stacks
 rspec #both 
 
 ## toggle variables in ./spec/stack_spec.rb to test more or less
-test_as = true #test autoscaling resources
-test_cw = false #test cloudwatch alarm resource
-test_ec2 = true #test ec2 resources
-test_elb = false #test elastic load balancer resource
-test_iam = false #test IAM resources
-test_rds = false #test db_instanace resource
-test_s3 = true #test S3 bucket resource
+test_as = true #autoscaling resources
+test_cw = false #cloudwatch alarm resource
+test_ec2 = true #ec2 resources
+test_elb = false #elastic load balancer resource
+test_iam = false #IAM resources
+test_rds = false #db_instanace resource
+test_s3 = true #S3 bucket resource
 ```
 
 
