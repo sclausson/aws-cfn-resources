@@ -41,17 +41,17 @@ stack = cfn.stacks['myStack']
 Given a CloudFormation template snippet for a stack named "myStack":
 ```json
 Resources: {
-    "myWebInstance" : {
-      "Type" : "AWS::EC2::Instance",
-      "Properties" : {
-        "..."
-      }
-    },
-    "myDbInstance" : {
-      "Type" : "AWS::EC2::Instance",
-      "Properties" : {
-        "..."
-      }
+  "myWebInstance" : {
+    "Type" : "AWS::EC2::Instance",
+    "Properties" : {
+      "..."
+    }
+  },
+  "myDbInstance" : {
+    "Type" : "AWS::EC2::Instance",
+    "Properties" : {
+      "..."
+    }
   }
 }
 ```
@@ -126,5 +126,31 @@ web_instance.stack
 vpc.stack
 #=> <AWS::CloudFormation::Stack stack_name:VpcCreator>
 ```
+
+## Testing
+**WARNING:** Running Rspec will create stacks and real AWS resources (that cost real money!!)  Make sure to delete these stacks when testing is complete.
+
+**Note:** Test tasks are only meant to be deployed to the 'us-east-1' region for now.  Making the test templates multi-region is on the roadmap.
+
+**TODO:** use a Rakefile to make testing easier/better.
+
+But for now, you can test with:
+
+```sh
+rspec ./spec/stack_spec.rb #queries stacks and returns resources
+rspec ./spec/resources_spec.rb #queries resources and returns stacks 
+rspec #both 
+
+## toggle variables in ./spec/stack_spec.rb to test more or less
+test_as = true #test autoscaling resources
+test_cw = false #test cloudwatch alarm resource
+test_ec2 = true #test ec2 resources
+test_elb = false #test elastic load balancer resource
+test_iam = false #test IAM resources
+test_rds = false #test db_instanace resource
+test_s3 = true #test S3 bucket resource
+```
+
+
 
 
