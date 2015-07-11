@@ -41,9 +41,9 @@ describe "EC2 Resources for EC2-Test Stack" do
   create_test_stack(stack_name,template_file)
   stack = @cfn.stacks[stack_name]
 
-  it "AWS::EC2::EIP#stack => Exception raised and returns back a nil AWS::CloudFormation::Stack" do
+  it "AWS::EC2::EIP#stack => Exception raised and returns back nil" do
     resource = stack.eip('EIP')
-    expect(resource.stack.name).to be nil
+    expect(resource.stack).to be nil
   end
 
   it "AWS::EC2::Instance#stack => Returns the AWS::CloudFormation::Stack resource that created the Instance" do
