@@ -1,1 +1,2 @@
-require 'stack.rb'
+require 'stack'
+require 'resources'
