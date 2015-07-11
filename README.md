@@ -1,4 +1,4 @@
-aws-cfn-resources gem
+aws-cfn-resources gem [![Gem Version](https://badge.fury.io/rb/aws-cfn-resources.svg)](http://badge.fury.io/rb/aws-cfn-resources)
 =====================
 
 ## Description
