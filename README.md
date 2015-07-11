@@ -10,14 +10,14 @@ By mixing methods into AWS::CloudFormation::Stack, the aws-cfn-resources gem is 
 It also makes sense to go the other direction, and to retrieve the AWS::CloudFormation::Stack responsible for creating a particular resource.  So this gem provides a stack method for most AWS taggable resources.
 
 ## Installation
-* `gem install aws-cfn-resources`
+* ```gem install aws-cfn-resources`
 * `require aws-cfn-resources`
 
 ## Basic Configuration
 
 You need to provide your AWS security credentials and choose a default region.
 
-```
+```ruby
 AWS.config(access_key_id: '...', secret_access_key: '...', region: 'us-east-1')
 ```
 
@@ -31,7 +31,7 @@ You can also specify these values via `ENV`:
 
 Create a stack object
 
-```
+```ruby
 cfn = AWS::CloudFormation.new
 stack = cfn.stacks['myStack']
 ```
