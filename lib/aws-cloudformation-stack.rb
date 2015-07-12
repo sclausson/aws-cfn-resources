@@ -6,9 +6,24 @@ require 'aws-sdk-v1'
 module AWS
   class CloudFormation
     class Stack
+
+      def initialize name, options = {}
+        @name = name
+        
+        @as = AWS::AutoScaling.new
+        @cw = AWS::CloudWatch.new
+        @ec2 = AWS::EC2.new
+        @elb = AWS::ELB.new
+        @iam = AWS::IAM.new
+        @rds = AWS::RDS.new
+        @s3 = AWS::S3.new
+
+        super
+      end
       
       def autoscaling_group(logical_id)
-        AWS::AutoScaling.new.groups[autoscaling_group_ids[logical_id.to_sym]]
+        id = autoscaling_group_ids[logical_id.to_sym]
+        @as.groups[id] if id
       end
 
       def autoscaling_groups
@@ -20,7 +35,8 @@ module AWS
       end
 
       def bucket(logical_id)
-        AWS::S3.new.buckets[bucket_ids[logical_id.to_sym]]
+        id = bucket_ids[logical_id.to_sym]
+        @s3.buckets[id] if id
       end
 
       def buckets
@@ -32,7 +48,8 @@ module AWS
       end
 
       def cloudwatch_alarm(logical_id)
-        AWS::CloudWatch.new.alarms[cloudwatch_alarm_ids[logical_id.to_sym]]
+        id = cloudwatch_alarm_ids[logical_id.to_sym]
+        @cw.alarms[id] if id
       end
 
       def cloudwatch_alarms
@@ -56,7 +73,8 @@ module AWS
       end
 
       def eip(logical_id)
-        AWS::EC2.new.elastic_ips[eip_ids[logical_id.to_sym]]
+        id = eip_ids[logical_id.to_sym]
+        @ec2.elastic_ips[id] if id
       end
 
       alias_method :elastic_ip, :eip
@@ -72,7 +90,8 @@ module AWS
       end
 
       def elb(logical_id)
-        AWS::ELB.new.load_balancers[elb_ids[logical_id.to_sym]]
+        id = elb_ids[logical_id.to_sym]
+        @elb.load_balancers[id] if id
       end
 
       def elbs
@@ -92,7 +111,8 @@ module AWS
       end
 
       def iam_group(logical_id)
-        AWS::IAM.new.groups[iam_group_ids[logical_id.to_sym]]
+        id = iam_group_ids[logical_id.to_sym]
+        @iam.groups[id] if id
       end
 
       def iam_groups
@@ -114,7 +134,8 @@ module AWS
       end
 
       def iam_user(logical_id)
-        AWS::IAM.new.users[iam_user_ids[logical_id.to_sym]]
+        id = iam_user_ids[logical_id.to_sym]
+        @iam.users[id] if id
       end
 
       def iam_users
@@ -126,7 +147,8 @@ module AWS
       end
 
       def instance(logical_id)
-        AWS::EC2.new.instances[instance_ids[logical_id.to_sym]]
+        id = instance_ids[logical_id.to_sym]
+        @ec2.instances[id] if id
       end
 
       def instances
@@ -138,7 +160,8 @@ module AWS
       end
 
       def internet_gateway(logical_id)
-        AWS::EC2.new.internet_gateways[internet_gateway_ids[logical_id.to_sym]]
+        id = internet_gateway_ids[logical_id.to_sym]
+        @ec2.internet_gateways[id] if id
       end
 
       alias_method :igw, :internet_gateway
@@ -148,7 +171,8 @@ module AWS
       end
 
       def launch_configuration(logical_id)
-        AWS::AutoScaling.new.launch_configurations[launch_configuration_ids[logical_id.to_sym]]
+        id = launch_configuration_ids[logical_id.to_sym]
+        @as.launch_configurations[id] if id
       end
 
       alias_method :launch_config, :launch_configuration
@@ -164,7 +188,8 @@ module AWS
       end
 
       def network_interface(logical_id)
-        AWS::EC2.new.network_interfaces[network_interface_ids[logical_id.to_sym]]
+        id = network_interface_ids[logical_id.to_sym]
+        @ec2.network_interfaces[id] if id
       end
 
       alias_method :nic, :network_interface
@@ -180,7 +205,8 @@ module AWS
       end
 
       def route_table(logical_id)
-        AWS::EC2.new.route_tables[route_table_ids[logical_id.to_sym]]
+        id = route_table_ids[logical_id.to_sym]
+        @ec2.route_tables[id] if id
       end
 
       def route_table_ids
@@ -189,8 +215,13 @@ module AWS
 
       def scaling_policy(as_group_logical_id, policy_logical_id)
         group = autoscaling_group(as_group_logical_id)
-        policy = scaling_policy_ids[policy_logical_id.to_sym].split('/')[-1]
-        AWS::AutoScaling::ScalingPolicy.new(group, policy)
+        id = scaling_policy_ids[policy_logical_id.to_sym]
+        policy = id.split('/')[-1] unless id.nil?
+        if (group && policy)
+          AWS::AutoScaling::ScalingPolicy.new(group, policy)
+        else
+          nil
+        end
       end
 
       def scaling_policies(as_group_logical_id)
@@ -202,7 +233,8 @@ module AWS
       end
 
       def security_group(logical_id)
-        AWS::EC2.new.security_groups.filter('group-id',security_group_ids[logical_id.to_sym]).first
+        id = security_group_ids[logical_id.to_sym]
+        @ec2.security_groups.filter('group-id',id).first if id
       end
       
       def security_groups
@@ -214,7 +246,8 @@ module AWS
       end
 
       def subnet(logical_id)
-        AWS::EC2.new.subnets[subnet_ids[logical_id.to_sym]]
+        id = subnet_ids[logical_id.to_sym]
+        @ec2.subnets[id] if id
       end
 
       def subnets
@@ -226,7 +259,8 @@ module AWS
       end
 
       def volume(logical_id)
-        AWS::EC2.new.volumes[volume_ids[logical_id.to_sym]]
+        id = volume_ids[logical_id.to_sym]
+        @ec2.volumes[id] if id
       end
 
       def volumes
@@ -238,7 +272,8 @@ module AWS
       end
 
       def vpc(logical_id)
-        AWS::EC2.new.vpcs[vpc_ids[logical_id.to_sym]]
+        id = vpc_ids[logical_id.to_sym]
+        @ec2.vpcs[id] if id
       end
 
       def vpcs
@@ -252,9 +287,7 @@ module AWS
       private
 
       def get_resources(resource_type)
-        hash = {}
-        resource_summaries.select { |rs| rs[:resource_type] == "#{resource_type}" }.collect { |r| hash[r[:logical_resource_id].to_sym] = r[:physical_resource_id] }
-        return hash
+        resource_summaries.select { |rs| rs[:resource_type] == "#{resource_type}" }.inject({}) { |hash, r| hash[r[:logical_resource_id].to_sym] = r[:physical_resource_id]; hash }
       end
 
     end

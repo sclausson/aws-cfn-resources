@@ -3,11 +3,11 @@ require_relative '../lib/stack.rb'
 AWS.config(region: 'us-east-1')
 
 test_as = true
-test_cw = false
+test_cw = true
 test_ec2 = true
-test_elb = false
-test_iam = false
-test_rds = false
+test_elb = true
+test_iam = true
+test_rds = true
 test_s3 = true
 
 def create_test_stack(stack_name, template_file)
@@ -17,7 +17,7 @@ def create_test_stack(stack_name, template_file)
 end
 
 def wait_for_stack(stack)
-  print "Waiting for stack #{stack.name} to complete" unless stack.status == "CREATE_COMPLETE"
+  print "\nWaiting for stack #{stack.name} to complete" unless stack.status == "CREATE_COMPLETE"
   until stack.status == "CREATE_COMPLETE"
     sleep 5
     print "."
@@ -38,6 +38,11 @@ describe "AutoScaling Resources" do
     expect(asg).to exist
   end
 
+  it "#autoscaling_group('foo') => nil" do
+    asg = stack.autoscaling_group("foo")
+    expect(asg).to be nil
+  end
+
   it "#autoscaling_groups => Returns a hash of valid AWS::AutoScaling::AutoScalingGroup resources mapped to logical_ids" do
     asgs = stack.autoscaling_groups
     expect(asgs.values.last).to exist
@@ -48,6 +53,11 @@ describe "AutoScaling Resources" do
     expect(lc).to exist
   end
 
+  it "#launch_configuration('foo') => nil" do
+    lc = stack.launch_configuration("foo")
+    expect(lc).to be nil
+  end
+
   it "#launch_configurations => Returns an array of AWS::AutoScaling::LaunchConfiguration resources" do
     lcs = stack.launch_configurations
     expect(lcs.values.last).to exist
@@ -56,6 +66,21 @@ describe "AutoScaling Resources" do
   it "#scaling_policy('AutoScalingGroup','ScaleUpPolicy') => Returns a valid AWS::AutoScaling::ScalingPolicy" do
     sp = stack.scaling_policy("AutoScalingGroup","ScaleUpPolicy")
     expect(sp).to exist
+  end
+
+  it "#scaling_policy('foo','ScaleUpPolicy') => nil" do
+    sp = stack.scaling_policy("foo","ScaleUpPolicy")
+    expect(sp).to be nil
+  end
+
+  it "#scaling_policy('AutoScalingGroup','foo') => nil" do
+    sp = stack.scaling_policy("AutoScalingGroup","foo")
+    expect(sp).to be nil
+  end
+
+  it "#scaling_policy('foo','foo') => nil" do
+    sp = stack.scaling_policy("foo","foo")
+    expect(sp).to be nil
   end
 
   it "#scaling_policies('AutoScalingGroup') => Returns an array of valid AWS::AutoScaling::ScalingPolicy resources" do
@@ -74,6 +99,11 @@ describe "CloudWatch Resources" do
     expect(cwa).to exist
   end
 
+  it "#cloudwatch_alarm('foo') => nil" do
+    cwa = stack.cloudwatch_alarm("foo")
+    expect(cwa).to be nil
+  end
+
   it "#cloudwatch_alarms => Returns a hash of valid AWS::CloudWatch::Alarm resources" do
     cwas = stack.cloudwatch_alarms
     expect(cwas.values.last).to exist
@@ -90,6 +120,11 @@ describe "EC2 Resources" do
     expect(eip).to exist
   end
 
+  it "#eip('foo') => nil" do
+    eip = stack.elastic_ip("foo")
+    expect(eip).to be nil
+  end
+
   it "#eips => Returns a hash of valid AWS::EC2::EIP resources" do
     eips = stack.elastic_ips
     expect(eips).to exist
@@ -99,6 +134,12 @@ describe "EC2 Resources" do
     instance = stack.instance("Instance")
     expect(instance).to exist
   end
+
+  it "#instance('Foo') => nil" do
+    instance = stack.instance("Foo")
+    expect(instance).to be nil
+  end
+
 
   it "#instances => Returns hash of valid AWS::EC2::Instance resources" do
     instances = stack.instances
@@ -128,18 +169,28 @@ describe "EC2 Resources" do
     sg = stack.security_group("SecurityGroup")
     expect(sg).to exist
   end
+  
+  it "#security_group('foo') => nil" do
+    sg = stack.security_group("foo")
+    expect(sg).to be nil
+  end
 
   it "#security_groups => Returns a hash of valid AWS::EC2::SecurityGroup resources" do
     sgs = stack.security_groups
     expect(sgs.values.last).to exist
   end
 
-  it "#subnet('Subnet') => Returns a valid AWS::EC2::Subnet resource" do
+  it "#subnet('Subnet') => Returns an available AWS::EC2::Subnet resource" do
     subnet = stack.subnet("Subnet")
     expect(subnet.state == :available)
   end
 
-  it "#subnets => Returns a hash of valid AWS::EC2::Subnet resources" do
+  it "#subnet('foo') => nil" do
+    subnet = stack.subnet("foo")
+    expect(subnet).to be nil
+  end
+
+  it "#subnets => Returns a hash of available AWS::EC2::Subnet resources" do
     subnets = stack.subnets
     expect(subnets.values.last.state == :available)
   end
