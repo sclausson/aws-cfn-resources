@@ -103,7 +103,13 @@ module AWS
       end
 
       def iam_access_key(user_logical_id, key_logical_id)
-        iam_user(user_logical_id).access_keys[iam_access_key_ids[key_logical_id.to_sym]]
+        id = iam_access_key_ids[key_logical_id.to_sym]
+        user = iam_user(user_logical_id)
+        if (id && user)
+          user.access_keys[id]
+        else
+          nil
+        end
       end
 
       def iam_access_key_ids
