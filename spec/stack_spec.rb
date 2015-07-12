@@ -2,13 +2,13 @@ require_relative '../lib/stack.rb'
 
 AWS.config(region: 'us-east-1')
 
-test_as = true
-test_cw = true
-test_ec2 = true
-test_elb = true
+test_as = false
+test_cw = false
+test_ec2 = false
+test_elb = false
 test_iam = true
-test_rds = true
-test_s3 = true
+test_rds = false
+test_s3 = false
 
 def create_test_stack(stack_name, template_file)
   @cfn = AWS::CloudFormation.new
@@ -247,6 +247,11 @@ describe "IAM Resources" do
     expect(group).to exist
   end
 
+  it "#iam_group('foo') => nil" do
+    group = stack.iam_group("foo")
+    expect(group).to be nil
+  end
+
   it "#iam_groups => Returns a hash of valid AWS::IAM::Group resources" do
     groups = stack.iam_groups
     expect(groups.values.last).to exist
@@ -255,6 +260,11 @@ describe "IAM Resources" do
   it "#iam_user('IAMUser') => Returns a valid AWS::IAM::User resource" do
     user = stack.iam_user("IAMUser")
     expect(user).to exist
+  end
+
+  it "#iam_user('foo') => nil" do
+    user = stack.iam_user("foo")
+    expect(user).to be nil
   end
   
   it "#iam_users => Returns a hash of valid AWS::IAM::User resources" do
