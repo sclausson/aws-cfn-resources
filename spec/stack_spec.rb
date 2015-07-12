@@ -2,11 +2,11 @@ require_relative '../lib/stack.rb'
 
 AWS.config(region: 'us-east-1')
 
-test_as = false
+test_as = true
 test_cw = false
-test_ec2 = false
+test_ec2 = true
 test_elb = false
-test_iam = true
+test_iam = false
 test_rds = false
 test_s3 = false
 
