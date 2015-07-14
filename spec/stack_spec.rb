@@ -2,13 +2,13 @@ require_relative '../lib/stack.rb'
 
 AWS.config(region: 'us-east-1')
 
-test_as = true
-test_cw = false
-test_ec2 = true
-test_elb = false
-test_iam = false
-test_rds = false
-test_s3 = false
+test_as = ENV['AS'] || ENV['ALL']
+test_cw = ENV['CW'] || ENV['ALL']
+test_ec2 = ENV['EC2'] || ENV['ALL']
+test_elb = ENV['ELB'] || ENV['ALL']
+test_iam = ENV['IAM'] || ENV['ALL']
+test_rds = ENV['RDS'] || ENV['ALL']
+test_s3 = ENV['S3'] || ENV['ALL']
 
 def create_test_stack(stack_name, template_file)
   @cfn = AWS::CloudFormation.new

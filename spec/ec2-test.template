@@ -1,14 +1,19 @@
 {
     "AWSTemplateFormatVersion": "2010-09-09",
-    "Description": "EC2 Tests for AWS-SDK-Helper Gem",
+    "Description": "EC2 Tests for aws-cfn-resources gem",
     "Metadata": {
 
     },
     "Parameters": {
 
-      "CidrBlock" : {
-        "Description" : "The CIDR of the VPC used for testing.  It must not conflict with existing VPCs.",
-        "Default" : "192.168.255.0/24",
+      "VpcCidrBlock" : {
+        "Description" : "The CIDR block of the VPC used for testing.",
+        "Default" : "10.1.0.0/16",
+        "Type" : "String"
+      },
+      "SubnetCidrBlock" : {
+        "Description" : "The CIDR block of the Subnet used for testing.",
+        "Default" : "10.1.1.0/24",
         "Type" : "String"
       }
     
@@ -23,13 +28,13 @@
       "VPC" : {
         "Type" : "AWS::EC2::VPC",
         "Properties" : {
-          "CidrBlock" : { "Ref" : "CidrBlock" }
+          "CidrBlock" : { "Ref" : "VpcCidrBlock" }
         }
       },
       "Subnet" : {
         "Type" : "AWS::EC2::Subnet",
         "Properties" : {
-          "CidrBlock" : { "Ref" : "CidrBlock" },
+          "CidrBlock" : { "Ref" : "SubnetCidrBlock" },
           "VpcId" : { "Ref" : "VPC" }
         }
       },

@@ -19,7 +19,7 @@ module AWS
         begin
           self.tags[tag_key]
         rescue NoMethodError => e
-          puts "#{self.class} does not support the :tags method, so we cannot determine the stack for this resource type"
+          puts "#{self.class} does not implement #tags method, cannot determine the stack for this resource type"
         end
       end
 

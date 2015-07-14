@@ -127,28 +127,44 @@ vpc.stack
 #=> <AWS::CloudFormation::Stack stack_name:VpcCreator>
 ```
 
+***Example 4***
+Calling resource methods for non-exist resources will return nil
+
+```ruby
+require 'aws-cfn-resources'
+cfn = AWS::CloudFormation.new
+
+stack = cfn.stacks['myStack']
+instance = stack.instance('foo')
+#=> nil
+```
+
+Calling #stack method on resources NOT created by CloudFormation or not 'taggable' will also return nil
+
+
+
 ## Testing
 **WARNING:** Running Rspec will create stacks and real AWS resources (that cost real money!!)  Make sure to delete these stacks when testing is complete.
 
 **Note:** Test tasks are only meant to be deployed to the 'us-east-1' region for now.  Making the test templates multi-region is on the roadmap.
 
-**TODO:** use a Rakefile to make testing easier/better.
-
-But for now, you can test with:
+You can test with:
 
 ```sh
-rspec ./spec/stack_spec.rb #queries stacks and returns resources
-rspec ./spec/resources_spec.rb #queries resources and returns stacks 
-rspec #both 
+rake EC2=true AS=true #test EC2 and AutoScaling resources
+rake ALL=true #test all resources
 
-## toggle variables in ./spec/stack_spec.rb to test more or less
-test_as = true #autoscaling resources
-test_cw = false #cloudwatch alarm resource
-test_ec2 = true #ec2 resources
-test_elb = false #elastic load balancer resource
-test_iam = false #IAM resources
-test_rds = false #db_instanace resource
-test_s3 = true #S3 bucket resource
+## pass one or more of the following arguments to Rake to indicate which resource(s) to test
+AS=true #test autoscaling resources
+CW=true #test cloudwatch alarm resource
+EC2=true #test ec2 resources
+ELB=true #test elastic load balancer resource
+IAM=true #test IAM resources
+RDS=true #test db_instanace resource
+S3=true #test S3 bucket resource
+
+## or test all
+ALL=true #test all resources
 ```
 
 
